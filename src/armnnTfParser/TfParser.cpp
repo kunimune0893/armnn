@@ -1951,7 +1951,7 @@ void TfParser::LoadNodeDef(const tensorflow::NodeDef& nodeDef, const tensorflow:
         throw ParseException("Currently only FLOAT is supported for tensorflow nodes (apart from Const)");
     }
 
-    const std::string& operation = nodeDef.op();
+    const std::string& operation = nodeDef.op(); BOOST_LOG_TRIVIAL(debug) << "type: " << type << ", nodeDef.op(): " << operation << " (" << nodeDef.name() << ")";
     auto it = ms_OperationNameToParsingFunctions.find(operation);
     if (it != ms_OperationNameToParsingFunctions.end())
     {
@@ -2001,7 +2001,7 @@ void TfParser::LoadGraphDef(const tensorflow::GraphDef& graphDef)
     for (int i = 0; i < graphDef.node_size(); ++i)
     {
         const tensorflow::NodeDef& node = graphDef.node(i);
-        m_NodesByName[node.name()]      = &node;
+        m_NodesByName[node.name()]      = &node;            BOOST_LOG_TRIVIAL(debug) << i << ": " << node.name();
     }
 
     // Find the output nodes the user requested
